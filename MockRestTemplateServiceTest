@@ -1,0 +1,22 @@
+@RunWith(MockitoJUnitRunner.class)
+public class MockRestTemplateServiceTest {
+    @Mock
+    private RestTemplate MockRestTemplate;
+
+    @InjectMocks
+    private SomeService underTest;
+
+    @Test
+    public void testGetObjectAList() {
+        ObjectA myobjectA = new ObjectA();
+        //define the entity you want the exchange to return
+       ResponseEntity<UserTransaction> variable = new ResponseEntity<>(myobjectA, HttpStatus.OK);
+       when(MockRestTemplate.exchange(Mockito.anyString()
+                , Mockito.eq(HttpMethod.GET)
+                , Mockito.any(HttpEntity.class)
+                , Mockito.<Class<UserTransaction>>any())
+   ).thenReturn(new ResponseEntity<>(transaction, HttpStatus.OK));
+   
+        List<ObjectA> res = underTest.getListofObjectsA();
+        Assert.assertEquals(myobjectA, res.get(0));
+    }
